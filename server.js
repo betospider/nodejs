@@ -6,18 +6,6 @@ const jwt = require("jsonwebtoken")
 
 app.use(express.json())
 app.use(cors())
-//app.use(cors)
-
-/*app.use(function (req,res, next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})*/
-
-
-
-
-
 
 
 const posts = [
@@ -43,6 +31,15 @@ app.post('/login', (req, res) =>{
     const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
     // accessTokem saves the user information safely
     res.json({accessToken: accessToken})
+})
+
+app.get('/token', (req, res) =>{
+    const username = req.body.username
+    const user = {name: username}
+    const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
+
+    res.json({accessToken: accessToken})
+
 })
 
 //authenticate token
