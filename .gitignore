@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 node_modules
 package-lock.json
+=======
+# dependencies
+/node_modules
+>>>>>>> d3c5b25c016f556ee6212cf07d728e35e10775af
