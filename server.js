@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken")
 app.use(express.json())
 app.use(cors())
 
-
 const posts = [
     {
         username: 'Kyle', 
@@ -42,7 +41,6 @@ app.get('/token', (req, res) =>{
 
 })
 
-
 //authenticate token
 function authenticateToken(req, res, next){
     
@@ -55,7 +53,6 @@ function authenticateToken(req, res, next){
         req.user = user
         next()
     })
- 
+ }
 
-}
 app.listen(3000)
