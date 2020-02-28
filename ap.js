@@ -9,6 +9,31 @@ const jwt = require("jsonwebtoken")
 app.use(express.json())
 app.use(cors())
 
+const posts = [
+    {
+        username: 'Kyle', 
+        title: 'Post 1'
+    },
+    {
+        username: 'Beto', 
+        title: 'Post 2'
+    }
+]
+app.get('/posts', authenticateToken, (req, res, next) =>{
+   
+    res.json(posts.filter(post => post.username === req.user.name));
+    next();
+})
+
+app.post('/login', (req, res) =>{
+    const username = req.body.username
+    const user = {name: username}
+    // create web token, and serialize it
+    const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
+    // accessTokem saves the user information safely
+    res.json({accessToken: accessToken})
+})
+
 // create connection
 const db = mysql.createConnection({
     host    : 'localhost',
@@ -52,8 +77,6 @@ app.get('/addPost1', (req, res) => {
 
     let post = {title: 'post 1', body: 'this is the actual title body for post  1'};
     let sql = 'INSERT INTO posts SET ?';
-   // onnection.query('INSERT INTO messages VALUES ?', post, function(err, result) {
-
     let query = db.query(sql, post, (err, result) => {
  
             if(err) throw err;
@@ -63,14 +86,17 @@ app.get('/addPost1', (req, res) => {
   
 })
 
-app.get('/token', (req, res) =>{
+app.get('/token',authenticateToken, (req, res, next) =>{
     const username = req.body.username
     const user = {name: username}
     const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
 
     res.json({accessToken: accessToken})
-
 })
+
+
+
+
 
 //authenticate token
 function authenticateToken(req, res, next){
