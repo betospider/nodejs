@@ -7,3 +7,11 @@ Content-Type: application/json
 {
     "username": "Beto"
 }
+###
+
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+    "username": "Beto"
+}

@@ -73,9 +73,9 @@ app.get('/createpoststable', (req, res) => {
 
 })
 
-app.get('/addPost1', (req, res) => {
+app.get('/addPost1', authenticateToken, (req, res) => {
 
-    let post = {title: 'post 1', body: 'this is the actual title body for post  1'};
+    let post = {title: 'post 1', body: 'saxophone added'};
     let sql = 'INSERT INTO posts SET ?';
     let query = db.query(sql, post, (err, result) => {
  
@@ -86,17 +86,15 @@ app.get('/addPost1', (req, res) => {
   
 })
 
-app.get('/token',authenticateToken, (req, res, next) =>{
+// it posts , and if username is correct creates token
+// No authentication at this point. Just the returning token
+app.post('/token', (req, res) =>{
     const username = req.body.username
     const user = {name: username}
     const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
 
     res.json({accessToken: accessToken})
 })
-
-
-
-
 
 //authenticate token
 function authenticateToken(req, res, next){
